@@ -8,14 +8,16 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 public abstract class AbsBasePages<T> {
 
   protected Page page;
+
+
   private String  baseUrl =  System.getProperty("base.url");
 
 
   private String  getPath() {
     Class clazz = this.getClass();
     if(clazz.isAnnotationPresent(Path.class)) {
-      Path path =  (Path) clazz.getAnnotation(Path.class);
-      return path.value();
+      Path path =  (Path) clazz.getDeclaredAnnotation(Path.class);
+      return path != null ? path.value() : null;
     }
     return "";
   }
@@ -25,7 +27,8 @@ public abstract class AbsBasePages<T> {
   }
 
   public T open() {
-    page.navigate(baseUrl + getPath());
+    System.out.println("Opening page " + getPath());
+    page.navigate("baseUrl + getPath()");
 
     return (T) this;
   }
@@ -36,6 +39,6 @@ public abstract class AbsBasePages<T> {
     assertThat(page)
         .hasTitle(params);
 
-    return (T)this;
+    return (T) this;
   }
 }
