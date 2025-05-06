@@ -14,11 +14,11 @@ public class MainPage_Test {
   private MainPage mainPage;
 
 @Test
-  public void check() {
-    mainPage
-        .open()
-        .clickCourseCategory("Управленее")
-        .checkPageUrl(new String[]{"categories=marketing-business"})
-        .checkBoxCategoryStatus("Управленее", true);
-  }
+public void check() {
+  mainPage
+      .open()
+      .clickCourseCategory("Управление")
+      .checkPageUrl(new String[]{"categories=marketing-business"})
+      .checkBoxCategoryStatus("Управление", true);
+}
 }
