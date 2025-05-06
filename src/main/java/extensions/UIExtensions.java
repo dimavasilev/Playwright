@@ -29,7 +29,7 @@ public class UIExtensions implements BeforeEachCallback, BeforeAllCallback, Afte
     browser.startTracing(page, new Browser.StartTracingOptions().setPath(Path.of(System.getProperty("user.dir") + String.format("/$s_traces.zip", context.getTestInstance().get().getClass().getClass().getName()))));
 
 
-    Guice.createInjector(new PlaywrightGuiceModule(page)).injectMembers(context.getTestInstance());
+    Guice.createInjector(new PlaywrightGuiceModule(page)).injectMembers(context.getTestInstance().get());
   }
 
   @Override

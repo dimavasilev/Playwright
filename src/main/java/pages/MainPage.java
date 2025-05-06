@@ -16,8 +16,7 @@ public class MainPage extends AbsBasePages<MainPage> {
   }
 
   public CatalogPage clickCourseCategory(String name) {
-    page.locator("a[href*='/categories']", new Page.LocatorOptions().setHasText(name))
-        .click();
+    page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName(name)).click();
     return catalogPage;
   }
 }

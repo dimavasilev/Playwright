@@ -1,7 +1,11 @@
 package pages;
 
 import annotations.Path;
+import com.google.inject.*;
 import com.microsoft.playwright.*;
+import modules.PlaywrightGuiceModule;
+
+import java.util.regex.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 
@@ -17,18 +21,18 @@ public abstract class AbsBasePages<T> {
     Class clazz = this.getClass();
     if(clazz.isAnnotationPresent(Path.class)) {
       Path path =  (Path) clazz.getDeclaredAnnotation(Path.class);
-      return path != null ? path.value() : null;
+      return path.value();
     }
     return "";
   }
 
   public AbsBasePages(Page page) {
     this.page = page;
+    Guice.createInjector(new PlaywrightGuiceModule(page)).injectMembers(this);
   }
 
   public T open() {
-    System.out.println("Opening page " + getPath());
-    page.navigate("baseUrl + getPath()");
+    page.navigate(baseUrl + getPath());
 
     return (T) this;
   }
@@ -37,7 +41,7 @@ public abstract class AbsBasePages<T> {
 
     String params = String.join("&", queryParams);
     assertThat(page)
-        .hasTitle(params);
+        .hasURL(Pattern.compile(String.format(".*%s.*", params)));
 
     return (T) this;
   }
